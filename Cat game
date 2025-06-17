@@ -1,0 +1,83 @@
+import SwiftUI
+struct ContentView: View {
+// Game state
+@State private var currentStep = "start"
+var body: some View {
+VStack(spacing: 20) {
+Spacer()
+switch currentStep {
+case "start":
+Text("🐈 You have been abandoned. You have to trust yourself, as you can't trust anyone else. Where do you go?")
+.multilineTextAlignment(.center)
+HStack {
+gameButton("Alleyway") {
+currentStep = "alleyway"
+}
+gameButton("Park") {
+currentStep = "park"
+}
+}
+case "alleyway":
+Text("Dark, grimey, and pulsing with fear. The lights of hope are out. Do you press on, or follow what little you have left?")
+.multilineTextAlignment(.center)
+VStack {
+gameButton("Press On") {
+currentStep = "press on"
+}
+gameButton("Playground") {
+currentStep = "playground"
+}
+}
+case "park":
+Text("Love and joy exist in multitude. It makes you think of home. You could join them, or you could continue in solitude.")
+gameButton("Traffic") {
+currentStep = "traffic"
+}
+gameButton("Playground") {
+currentStep = "playground"
+}
+case "press on":
+Text("You're lucky the the world has spared you. Return. There's nothing here.")
+gameButton("Retreat") {
+currentStep = "start"
+}
+case "playground":
+Text("It's so far away, but so familiar. It's almost like you could fall back into the safety of home, all over again.")
+Text("'There he is! I missed you so much...'")
+.italic()
+gameButton("GOOD ENDING") {
+currentStep = "start"
+}
+
+case "traffic":
+Text("The sounds of the city are far more friendly than the embraces of those who have left you behind. Wandering closer, you don't even realize it when it all goes dark.")
+Text("'Oh my god, I think we hit something!'")
+.italic()
+gameButton("BAD ENDING") {
+currentStep = "start"
+}
+
+default:
+Text("Game Over.")
+}
+Spacer()
+}
+.padding()
+.font(.title3)
+}
+// Reusable styled button
+func gameButton(_ label: String, action: @escaping () -> Void) -> some View {
+Button(action: action) {
+Text(label)
+.padding()
+.frame(maxWidth: .infinity)
+.background(Color.blue.opacity(0.8))
+.foregroundColor(.white)
+.cornerRadius(10)
+}
+}
+}
+#Preview {
+ContentView()
+}
+
